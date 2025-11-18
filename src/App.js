@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/header/Header";
 import LearnPhishing from "./pages/learn-phishing/LearnPhishing";
+import PhishingQuiz from "./pages/phishing-quiz/PhishingQuiz";
+import PhishingGame from "./pages/phishing-game/PhishingGame";
 
 export default function App() {
   return (
@@ -13,6 +15,8 @@ export default function App() {
           <div className="w-full max-w-full px-0 lg:px-[10%]">
             <Routes>
               <Route path="/" element={<LearnPhishing />} />
+              <Route path="/quiz" element={<PhishingQuiz/>}/>
+              <Route path="/game" element={<PhishingGame/>}/>
             </Routes>
           </div>
         </div>
