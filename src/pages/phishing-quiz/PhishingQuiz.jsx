@@ -3,6 +3,8 @@ import { AlertTriangle, CheckCircle, XCircle, Lock } from 'lucide-react';
 import { questions } from "../../constants/constants"
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, RotateCcw } from "lucide-react";
+import useFetch from '../../hooks/useFetch';
+import Loader from '../../components/Loader';
 
 export default function PhishingQuiz() {
     const [index, setIndex] = useState(0);
@@ -10,6 +12,7 @@ export default function PhishingQuiz() {
     const [gameState, setGameState] = useState('playing');
     const [selectedType, setSelectedType] = useState(null);
     const navigate = useNavigate()
+    const { data, loading, fetchData, error } = useFetch("/score", "POST", false)
 
     const currentEmail = questions[index];
     const isLastQuestion = (index + 1) % 10 == 0
@@ -25,6 +28,16 @@ export default function PhishingQuiz() {
     const nextQuestion = () => {
         if (isLastQuestion) {
             setGameState('completed');
+            const saved = JSON.parse(localStorage.getItem("quiz_user"));
+            if (saved) {
+                fetchData({
+                    "firstname": saved.firstname,
+                    "lastname": saved.lastname,
+                    "email": saved.email,
+                    "kind": "quiz",
+                    "score": score.toString()
+                })
+            }
         } else {
             setIndex(prev => prev + 1);
             setGameState('playing');
@@ -34,29 +47,55 @@ export default function PhishingQuiz() {
 
     if (gameState === 'completed') {
         return (
-            <div className="bg-gray-950 text-white flex justify-center px-4">
-                <div className="w-full max-w-full mt-10 bg-gray-900 rounded-2xl p-10 shadow-2xl border border-gray-800">
-                    <h2 className="text-3xl font-bold mb-4">Quiz Completed</h2>
-                    <p className="text-gray-400 text-xl mb-8 mx-1">
-                        You scored <span className="text-purple-400 font-bold">{score}</span> out of <span className="text-white font-bold">{10}</span>
-                    </p>
-                    {score <= 5 && <p className="py-2">Well done. Your score seems low. We recommend you to revise learning</p>}
-                    {score >= 6 && score != 10 && <p className="py-2">Well done. We recommend you to learn more.</p>}
-                    {score == 10 && <p className="py-2">Great! You are a cyber champion</p>}
-                    <div className="w-full bg-gray-700 rounded-full h-4 mb-8">
-                        <div
-                            className="bg-gradient-to-r from-purple-600 to-blue-500 h-4 rounded-full transition-all duration-1000"
-                            style={{ width: `${(score / 10) * 100}%` }}
-                        ></div>
+            <>
+                {loading && <Loader loading={loading} text="Saving your score" />}
+                <div className="bg-gray-950 text-white flex justify-center px-4">
+                    <div className="w-full max-w-full mt-10 bg-gray-900 rounded-2xl p-10 shadow-2xl border border-gray-800">
+                        <h2 className="text-3xl font-bold mb-4">Quiz Completed</h2>
+                        <p className="text-gray-400 text-xl mb-8 mx-1">
+                            You scored <span className="text-purple-400 font-bold">{score}</span> out of <span className="text-white font-bold">{10}</span>
+                        </p>
+                        {score <= 5 && (
+                            <p className="py-2 text-red-300 font-semibold">
+                                Your score indicates risk. Review the phishing basics and try again!
+                            </p>
+                        )}
+
+                        {score >= 6 && score < 10 && (
+                            <p className="py-2 text-yellow-300 font-semibold">
+                                Good progress! Keep practicing to strengthen your phishing awareness.
+                            </p>
+                        )}
+
+                        {score === 10 && (
+                            <p className="py-2 text-green-400 font-semibold">
+                                Excellent! You’re a cyber champion
+                            </p>
+                        )}
+
+                        <div className="w-full bg-gray-700 rounded-full h-4 mb-8">
+                            <div
+                                className="bg-gradient-to-r from-purple-600 to-blue-500 h-4 rounded-full transition-all duration-1000"
+                                style={{ width: `${(score / 10) * 100}%` }}
+                            ></div>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-3">
+                        <button
+                            onClick={() => navigate("/")}
+                            className="flex-1 bg-white text-gray-900 py-3 rounded-xl font-bold hover:bg-gray-200 transition"
+                        >
+                            Back to Learning
+                        </button>
+
+                        <button
+                            onClick={() => navigate("/scores")}
+                            className="flex-1 bg-purple-600 text-white py-3 rounded-xl font-bold hover:bg-purple-700 transition"
+                        >
+                            View Your Scores
+                        </button>
                     </div>
-                    <button
-                        onClick={() => navigate("/")}
-                        className="w-full bg-white text-gray-900 py-3 rounded-xl font-bold hover:bg-gray-200 transition"
-                    >
-                        Back to Learning
-                    </button>
-                </div>
-                <style>{`
+                    </div>
+                    <style>{`
                     @keyframes fade-in {
                         from { opacity: 0; }
                         to { opacity: 1; }
@@ -65,7 +104,8 @@ export default function PhishingQuiz() {
                         animation: fade-in 0.5s ease-in forwards;
                     }
                 `}</style>
-            </div>
+                </div>
+            </>
         );
     }
 
@@ -138,8 +178,8 @@ export default function PhishingQuiz() {
 
 
                     <div className="bg-gray-900 p-6 rounded-xl border border-gray-800 shadow-lg">
-                        <h3 className="text-white font-bold mb-4">Check your knowledge</h3>
-                        <p className="rounded-xl border border-gray-800 shadow-lg py-4"> Is this email Phishing or Legitimate? </p>
+                        <h3 className="text-white font-bold mb-4">Test Your Knowledge:</h3>
+                        <p className="rounded-xl border border-gray-800 shadow-lg py-4"> Is This Email Phishing or Legitimate?</p>
                         <div className="space-y-3">
                             <button
                                 disabled={gameState === 'answer'}
@@ -174,8 +214,8 @@ export default function PhishingQuiz() {
 
                     {gameState === 'answer' && (
                         <div className={`p-6 rounded-xl border shadow-lg animate-slide-up ${(selectedType === currentEmail.type)
-                                ? "bg-green-900/20 border-green-500/50"
-                                : "bg-red-900/20 border-red-500/50"
+                            ? "bg-green-900/20 border-green-500/50"
+                            : "bg-red-900/20 border-red-500/50"
                             }`}>
                             <div className="flex items-center gap-2 mb-2">
                                 {selectedType === currentEmail.type ? (

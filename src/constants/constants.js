@@ -343,10 +343,10 @@ export const game_levels = [
             { text: "\n\nThanks for your order of Iphone 17 Pro Max, 1TB worth 2499CAD", isSuspicious: false },
             { text: "If purchase is not done by you please call at +1 1800 991111", isSuspicious: true,  },
             { text: "\n\nCancel Order Link", isSuspicious: true, type:"link" },
-            { text: "\n\nTeam, Amazon", isSuspicious: true }
+            { text: "\n\nTeam, Amazone", isSuspicious: true }
         ],
         count:3,
-        chances: 5,
+        chances: 4,
         explanation: "Fake order scam based on creating a panic scenario. Calling to specified number might result in asking for credit card details to refund the amount"
     },
     {

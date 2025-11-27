@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function QuizStartModal({location}) {
+export default function QuizStartModal({ location }) {
   const [open, setOpen] = useState(true);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -25,12 +25,12 @@ export default function QuizStartModal({location}) {
     const user = { firstname, lastname, email };
     localStorage.setItem("quiz_user", JSON.stringify(user));
     setOpen(false);
-    navigate(location)
+    navigate(location);
   };
 
   const confirmUser = () => {
     setConfirmOpen(false);
-    navigate(location)
+    navigate(location);
   };
 
   return (
@@ -38,7 +38,6 @@ export default function QuizStartModal({location}) {
       {open && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-3 z-50">
           <div className="bg-white rounded-2xl w-full max-w-md shadow-xl flex flex-col max-h-[85vh] overflow-y-auto animate-[fadeIn_0.25s_ease,scaleIn_0.25s_ease]">
-
             <div className="p-4 border-b sticky top-0 bg-white z-10">
               <h1 className="text-2xl font-extrabold text-center text-black">Welcome</h1>
               <h2 className="text-lg font-semibold text-center text-black mt-1">Enter Your Details</h2>
@@ -52,7 +51,7 @@ export default function QuizStartModal({location}) {
                   value={firstname}
                   placeholder="First Name"
                   onChange={(e) => setFirstname(e.target.value)}
-                  className="w-full p-2.5 text-base border rounded-lg"
+                  className="w-full p-2.5 text-base rounded-lg bg-gray-100 border border-gray-300 text-black placeholder-gray-500 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 />
               </div>
 
@@ -63,7 +62,7 @@ export default function QuizStartModal({location}) {
                   value={lastname}
                   placeholder="Last Name"
                   onChange={(e) => setLastname(e.target.value)}
-                  className="w-full p-2.5 text-base border rounded-lg"
+                  className="w-full p-2.5 text-base rounded-lg bg-gray-100 border border-gray-300 text-black placeholder-gray-500 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 />
               </div>
 
@@ -74,7 +73,7 @@ export default function QuizStartModal({location}) {
                   value={email}
                   placeholder="Email"
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-2.5 text-base border rounded-lg"
+                  className="w-full p-2.5 text-base rounded-lg bg-gray-100 border border-gray-300 text-black placeholder-gray-500 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 />
               </div>
             </div>
@@ -94,7 +93,6 @@ export default function QuizStartModal({location}) {
       {confirmOpen && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-3 z-50">
           <div className="bg-white rounded-2xl w-full max-w-md shadow-xl flex flex-col max-h-[85vh] overflow-y-auto text-center animate-[fadeIn_0.25s_ease,scaleIn_0.25s_ease]">
-
             <div className="p-4 border-b sticky top-0 bg-white z-10">
               <h1 className="text-2xl font-extrabold text-black">Confirm</h1>
             </div>
@@ -125,7 +123,6 @@ export default function QuizStartModal({location}) {
                 </button>
               </div>
             </div>
-
           </div>
         </div>
       )}

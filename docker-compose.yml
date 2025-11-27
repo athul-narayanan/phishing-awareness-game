@@ -1,0 +1,10 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+      REACT_APP_PHISHING_AWARENESS_API  : "http://localhost:8080/phishing_awareness_api"
+    ports:
+      - "3000:80"

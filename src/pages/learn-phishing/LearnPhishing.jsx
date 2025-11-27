@@ -24,8 +24,9 @@ export default function LearnPhishing() {
                     </h2>
 
                     <p className="text-gray-300 text-lg font-bold leading-relaxed mb-10">
-                        The application teaches you phishing attacks and how to identify them.
-                        Watch Videos and then try quiz and game to check how safe you are
+                       Learn how phishing attacks work and how to recognize them. 
+                       Watch the videos, then put your skills to the test with quizzes 
+                       and games designed to measure your security awareness.
                     </p>
 
                     <div className="grid max-w-full grid-cols-1 lg:grid-cols-2 gap-10">

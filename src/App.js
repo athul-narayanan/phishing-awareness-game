@@ -4,6 +4,7 @@ import Header from "./components/header/Header";
 import LearnPhishing from "./pages/learn-phishing/LearnPhishing";
 import PhishingQuiz from "./pages/phishing-quiz/PhishingQuiz";
 import PhishingGame from "./pages/phishing-game/PhishingGame";
+import Scores from "./pages/score/score";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
               <Route path="/" element={<LearnPhishing />} />
               <Route path="/quiz" element={<PhishingQuiz/>}/>
               <Route path="/game" element={<PhishingGame/>}/>
+              <Route path="/scores" element={<Scores/>}/>
             </Routes>
           </div>
         </div>
